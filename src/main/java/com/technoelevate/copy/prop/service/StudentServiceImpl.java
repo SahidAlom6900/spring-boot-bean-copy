@@ -31,8 +31,7 @@ public class StudentServiceImpl implements StudentService {
 
 	@Override
 	public StudentDto getStudent(Long stdId) {
-		Student student = studentRepository.findById(stdId).orElseThrow();
-		return BeanCopy.objectProperties(student, StudentDto.class);
+		return BeanCopy.objectProperties(studentRepository.findById(stdId).orElseThrow(), StudentDto.class);
 	}
 	
 	@Transactional
@@ -53,6 +52,7 @@ public class StudentServiceImpl implements StudentService {
 			if (!book.getStudents().isEmpty())
 				bookDto.setStudents(book.getStudents().stream().map(std -> {
 					std.setBooks(null);
+					System.out.print(std);
 					return BeanCopy.objectProperties(std, StudentDto.class);
 				}).toList());
 			return bookDto;

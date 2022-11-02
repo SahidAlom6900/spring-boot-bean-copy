@@ -1,6 +1,7 @@
 package com.technoelevate.copy.prop.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -13,6 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -36,6 +38,9 @@ public class Book implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long bookId;
 	private String bookName;
+	
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
+	private LocalDateTime recDate;
 
 	@ManyToMany(mappedBy = "books", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	@JsonBackReference

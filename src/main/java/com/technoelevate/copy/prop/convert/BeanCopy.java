@@ -1,15 +1,26 @@
 package com.technoelevate.copy.prop.convert;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class BeanCopy {
 
-	private static final ObjectMapper mapper = new ObjectMapper();
+	private static ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
-	private static final Gson gson = new Gson();
+	private static Gson gson;
+	static {
+		gson = new GsonBuilder()
+				.registerTypeAdapter(LocalDate.class, new LocalDateDeserializer())
+				.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer())
+				.setPrettyPrinting().create();
+	}
 
 	public static <T> T jsonProperties(String json, Class<T> valueType) {
 		try {

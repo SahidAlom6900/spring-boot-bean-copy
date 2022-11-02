@@ -1,6 +1,8 @@
 package 	com.technoelevate.copy.prop.entity;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -14,6 +16,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -41,6 +46,11 @@ public class Student implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long stdId;
 	private String stdName;
+	
+//	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
+	@JsonFormat(pattern = "yyyy-MM-dd" )
+//	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate regDate;
 
 	@ManyToMany( cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	@JoinTable(name = "student_book", joinColumns = @JoinColumn(name = "stdId", referencedColumnName = "stdId"), inverseJoinColumns = @JoinColumn(name = "bookId", referencedColumnName = "bookId"))
